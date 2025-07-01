@@ -1,13 +1,19 @@
-if not exist %PREFIX% mkdir %PREFIX%
+REM our feedstock has four sources: nvcc, crt, nvvm, libnvptxcompiler
 
-ren our feedstock has four sources: nvcc, crt, nvvm, libnvptxcompiler
+robocopy "nvcc\bin" "%LIBRARY_BIN%" /MOVE /E
+if %ERRORLEVEL% GEQ 8 exit 1
 
-move nvcc\bin\* %LIBRARY_BIN%
-move nvcc\include\* %LIBRARY_INC%
+robocopy "nvcc\include" "%LIBRARY_INC%" /MOVE /E
+if %ERRORLEVEL% GEQ 8 exit 1
 
-move crt\include\crt %LIBRARY_INC%
+robocopy "crt\include\crt" "%LIBRARY_INC%\crt" /MOVE /E
+if %ERRORLEVEL% GEQ 8 exit 1
 
-move nvvm\nvvm %PREFIX%\Library
+robocopy "nvvm\nvvm"     "%PREFIX%\Library\nvvm" /MOVE /E
+if %ERRORLEVEL% GEQ 8 exit 1
 
-move libnvptxcompiler\lib\x64\* %LIBRARY_LIB%
-move libnvptxcompiler\include\* %LIBRARY_INC%
+robocopy "libnvptxcompiler\lib\x64" "%LIBRARY_LIB%\x64" /MOVE /E
+if %ERRORLEVEL% GEQ 8 exit 1
+
+robocopy "libnvptxcompiler\include" "%LIBRARY_INC%" /MOVE /E
+if %ERRORLEVEL% GEQ 8 exit 1
