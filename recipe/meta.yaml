@@ -49,7 +49,14 @@ requirements:
 outputs:
   - name: cuda-nvcc-tools
     files:   # [linux]
-      - bin/*                               # [linux]
+      - bin/__nvcc_device_query  # [linux]
+      - bin/bin2c                # [linux]
+      - bin/cudafe++             # [linux]
+      - bin/fatbinary            # [linux]
+      - bin/nvcc                 # [linux]
+      - bin/nvcc.profile         # [linux]
+      - bin/nvlink               # [linux]
+      - bin/ptxas                # [linux]
     requirements:
       build:
         - {{ compiler("c") }}
@@ -96,15 +103,11 @@ outputs:
       strong:
         - cuda-version >={{ cuda_version }},<{{ cuda_version_next_major }}
     files:
-      # targets/{{ target_name }}/bin/nvcc is only a symlink
-      - targets/{{ target_name }}/bin          # [linux]
-      - targets/{{ target_name }}/include/*.h  # [linux]
-      - targets/{{ target_name }}/lib         # [linux]
+      - targets/{{ target_name }}/bin/nvcc                          # [linux]
+      - targets/{{ target_name }}/include/fatbinary_section.h       # [linux]
       - Library\bin\*.exe                     # [win]
       - Library\bin\nvcc.profile              # [win]
       - Library\include\fatbinary_section.h   # [win]
-      - Library\include\nvPTXCompiler.h       # [win]
-      - Library\lib\nvptxcompiler_static.lib  # [win]
     requirements:
       build:
         - {{ stdlib("c") }}
@@ -112,6 +115,7 @@ outputs:
         - {{ pin_subpackage("cuda-crt-dev_" + target_platform, exact=True) }}
         - {{ pin_subpackage("cuda-nvcc-tools", exact=True) }}
         - {{ pin_subpackage("cuda-nvvm-dev_" + target_platform, exact=True) }}
+        - {{ pin_subpackage("libnvptxcompiler-dev_" + target_platform, exact=True) }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - cuda-version {{ cuda_version }}
         - libgcc {{ gcc_min_constraint }}  # [linux]
@@ -119,6 +123,7 @@ outputs:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - {{ pin_subpackage("cuda-crt-dev_" + target_platform, exact=True) }}
         - {{ pin_subpackage("cuda-nvvm-dev_" + target_platform, exact=True) }}
+        - {{ pin_subpackage("libnvptxcompiler-dev_" + target_platform, exact=True) }}
         - arm-variant * {{ arm_variant_type }}    # [aarch64]
         - libgcc {{ gcc_min_constraint }}  # [linux]
       run_constrained:
@@ -131,14 +136,44 @@ outputs:
         - test -f $PREFIX/targets/{{ target_name }}/include/nvPTXCompiler.h           # [linux]
         - if not exist %LIBRARY_BIN%\nvcc.exe exit 1                  # [win]
         - if not exist %LIBRARY_BIN%\nvcc.profile exit 1              # [win]
-        - if not exist %LIBRARY_LIB%\nvptxcompiler_static.lib exit 1  # [win]
-        - if not exist %LIBRARY_INC%\nvPTXCompiler.h exit 1           # [win]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
       license: LicenseRef-NVIDIA-End-User-License-Agreement
       license_url: https://docs.nvidia.com/cuda/eula/index.html
       summary: Target architecture dependent parts of CUDA NVCC compiler.
+      description: |
+        Compiler for CUDA applications.
+      doc_url: https://docs.nvidia.com/cuda/index.html
+
+  - name: libnvptxcompiler-dev_{{ target_platform }}
+    build:
+      noarch: generic
+    files:
+      - targets/{{ target_name }}/include/nvPTXCompiler.h           # [linux]
+      - targets/{{ target_name }}/lib/libnvptxcompiler_static.a     # [linux]
+      - lib/libnvptxcompiler_static.a                               # [linux]
+      - Library\include\nvPTXCompiler.h                             # [win]
+      - Library\lib\nvptxcompiler_static.lib                        # [win]
+    requirements:
+      host:
+        - cuda-version {{ cuda_version }}
+      run:
+        - {{ pin_compatible("cuda-version", max_pin="x.x") }}
+        - arm-variant * {{ arm_variant_type }}    # [aarch64]
+    test:
+      commands:
+        - test -f $PREFIX/targets/{{ target_name }}/lib/libnvptxcompiler_static.a     # [linux]
+        - test -f $PREFIX/targets/{{ target_name }}/include/nvPTXCompiler.h           # [linux]
+        - test -L $PREFIX/lib/libnvptxcompiler_static.a                               # [linux]
+        - if not exist %LIBRARY_LIB%\nvptxcompiler_static.lib exit 1                  # [win]
+        - if not exist %LIBRARY_INC%\nvPTXCompiler.h exit 1                           # [win]
+    about:
+      home: https://developer.nvidia.com/cuda-toolkit
+      license_file: LICENSE
+      license: LicenseRef-NVIDIA-End-User-License-Agreement
+      license_url: https://docs.nvidia.com/cuda/eula/index.html
+      summary: Target architecture dependent parts of CUDA nvptxcompiler.
       description: |
         Compiler for CUDA applications.
       doc_url: https://docs.nvidia.com/cuda/index.html
@@ -150,11 +185,10 @@ outputs:
     run_exports:
       strong:
         - cuda-version >={{ cuda_version }},<{{ cuda_version_next_major }}
-    files:   # [linux]
-      - lib/libnvptxcompiler_static.a  # [linux]
     requirements:
       host:
         - {{ pin_subpackage("cuda-nvvm-impl", exact=True) }}
+        - {{ pin_subpackage("libnvptxcompiler-dev_" + target_platform, exact=True) }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - cuda-cudart-dev
         - cuda-version {{ cuda_version }}
@@ -163,6 +197,7 @@ outputs:
         - {{ pin_subpackage("cuda-nvcc-dev_" + target_platform, exact=True) }}
         - {{ pin_subpackage("cuda-nvvm-impl", exact=True) }}
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
+        - {{ pin_subpackage("libnvptxcompiler-dev_" + target_platform, exact=True) }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - cuda-cudart-dev
       run_constrained:
@@ -186,7 +221,9 @@ outputs:
         - run_nvcc_tests.sh   # [linux]
         - run_nvcc_tests.bat  # [win]
       commands:
-        - test -L $PREFIX/lib/libnvptxcompiler_static.a  # [linux]
+        - test -f $PREFIX/targets/{{ target_name }}/lib/libnvptxcompiler_static.a     # [linux]
+        - test -f $PREFIX/targets/{{ target_name }}/include/nvPTXCompiler.h           # [linux]
+        - test -L $PREFIX/lib/libnvptxcompiler_static.a                               # [linux]
         - {{ exists }} nvcc
         - ./run_nvcc_tests.sh   # [linux]
         - .\run_nvcc_tests.bat  # [win]
@@ -214,6 +251,7 @@ outputs:
       commands:
         - test -d $PREFIX/bin/crt            # [linux]
         - test -f $PREFIX/bin/crt/link.stub  # [linux]
+        - test -f $PREFIX/bin/crt/prelink.stub  # [linux]
         - if not exist %LIBRARY_BIN%\crt\link.stub exit 1  # [win]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
@@ -263,7 +301,6 @@ outputs:
     requirements:
       build:
         - {{ compiler("c") }}
-        - {{ compiler("cxx") }}
         - {{ stdlib("c") }}
       host:
         - cuda-version {{ cuda_version }}
@@ -327,7 +364,6 @@ outputs:
     requirements:
       build:
         - {{ compiler("c") }}
-        - {{ compiler("cxx") }}
         - {{ stdlib("c") }}
       host:
         - cuda-version {{ cuda_version }}
