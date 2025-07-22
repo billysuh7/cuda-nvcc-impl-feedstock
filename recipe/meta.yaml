@@ -197,7 +197,6 @@ outputs:
         - {{ pin_subpackage("cuda-nvcc-dev_" + target_platform, exact=True) }}
         - {{ pin_subpackage("cuda-nvvm-impl", exact=True) }}
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
-        - {{ pin_subpackage("libnvptxcompiler-dev_" + target_platform, exact=True) }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - cuda-cudart-dev
       run_constrained:
