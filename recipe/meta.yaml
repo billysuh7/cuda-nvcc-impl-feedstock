@@ -152,7 +152,6 @@ outputs:
     files:
       - targets/{{ target_name }}/include/nvPTXCompiler.h           # [linux]
       - targets/{{ target_name }}/lib/libnvptxcompiler_static.a     # [linux]
-      - lib/libnvptxcompiler_static.a                               # [linux]
       - Library\include\nvPTXCompiler.h                             # [win]
       - Library\lib\nvptxcompiler_static.lib                        # [win]
     requirements:
@@ -165,7 +164,6 @@ outputs:
       commands:
         - test -f $PREFIX/targets/{{ target_name }}/lib/libnvptxcompiler_static.a     # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/include/nvPTXCompiler.h           # [linux]
-        - test -L $PREFIX/lib/libnvptxcompiler_static.a                               # [linux]
         - if not exist %LIBRARY_LIB%\nvptxcompiler_static.lib exit 1                  # [win]
         - if not exist %LIBRARY_INC%\nvPTXCompiler.h exit 1                           # [win]
     about:
@@ -185,10 +183,11 @@ outputs:
     run_exports:
       strong:
         - cuda-version >={{ cuda_version }},<{{ cuda_version_next_major }}
+    files:  # [linux]
+      - lib/libnvptxcompiler_static.a  # [linux]
     requirements:
       host:
         - {{ pin_subpackage("cuda-nvvm-impl", exact=True) }}
-        - {{ pin_subpackage("libnvptxcompiler-dev_" + target_platform, exact=True) }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - cuda-cudart-dev
         - cuda-version {{ cuda_version }}
@@ -220,9 +219,9 @@ outputs:
         - run_nvcc_tests.sh   # [linux]
         - run_nvcc_tests.bat  # [win]
       commands:
+        - test -L $PREFIX/lib/libnvptxcompiler_static.a                               # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/lib/libnvptxcompiler_static.a     # [linux]
         - test -f $PREFIX/targets/{{ target_name }}/include/nvPTXCompiler.h           # [linux]
-        - test -L $PREFIX/lib/libnvptxcompiler_static.a                               # [linux]
         - {{ exists }} nvcc
         - ./run_nvcc_tests.sh   # [linux]
         - .\run_nvcc_tests.bat  # [win]
