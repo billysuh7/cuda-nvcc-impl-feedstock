@@ -147,8 +147,6 @@ outputs:
       doc_url: https://docs.nvidia.com/cuda/index.html
 
   - name: libnvptxcompiler-dev
-    build:
-      noarch: generic
     files:  # [linux]
       - lib/libnvptxcompiler_static.a  # [linux]
     requirements:
