@@ -146,6 +146,35 @@ outputs:
         Compiler for CUDA applications.
       doc_url: https://docs.nvidia.com/cuda/index.html
 
+  - name: libnvptxcompiler-dev
+    build:
+      noarch: generic
+    files:  # [linux]
+      - lib/libnvptxcompiler_static.a  # [linux]
+    requirements:
+      host:
+        - cuda-version {{ cuda_version }}
+      run:
+        - {{ pin_subpackage("libnvptxcompiler-dev_" ~ target_platform, exact=True) }}
+        - {{ pin_compatible("cuda-version", max_pin="x.x") }}
+        - arm-variant * {{ arm_variant_type }}    # [aarch64]
+    test:
+      commands:
+        - test -f $PREFIX/targets/{{ target_name }}/lib/libnvptxcompiler_static.a     # [linux]
+        - test -f $PREFIX/targets/{{ target_name }}/include/nvPTXCompiler.h           # [linux]
+        - test -L $PREFIX/lib/libnvptxcompiler_static.a                               # [linux]
+        - if not exist %LIBRARY_LIB%\nvptxcompiler_static.lib exit 1                  # [win]
+        - if not exist %LIBRARY_INC%\nvPTXCompiler.h exit 1                           # [win]
+    about:
+      home: https://developer.nvidia.com/cuda-toolkit
+      license_file: LICENSE
+      license: LicenseRef-NVIDIA-End-User-License-Agreement
+      license_url: https://docs.nvidia.com/cuda/eula/index.html
+      summary: Target architecture dependent parts of CUDA nvptxcompiler.
+      description: |
+        Compiler for CUDA applications.
+      doc_url: https://docs.nvidia.com/cuda/index.html
+
   - name: libnvptxcompiler-dev_{{ target_platform }}
     build:
       noarch: generic
@@ -183,8 +212,6 @@ outputs:
     run_exports:
       strong:
         - cuda-version >={{ cuda_version }},<{{ cuda_version_next_major }}
-    files:  # [linux]
-      - lib/libnvptxcompiler_static.a  # [linux]
     requirements:
       host:
         - {{ pin_subpackage("cuda-nvvm-impl", exact=True) }}
@@ -196,6 +223,7 @@ outputs:
         - {{ pin_subpackage("cuda-nvcc-dev_" + target_platform, exact=True) }}
         - {{ pin_subpackage("cuda-nvvm-impl", exact=True) }}
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
+        - {{ pin_subpackage("libnvptxcompiler-dev", exact=True) }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - cuda-cudart-dev
       run_constrained:
