@@ -116,18 +116,33 @@ Documentation: https://docs.nvidia.com/cuda/index.html
 Compiler for CUDA applications.
 
 
-About cuda-nvcc-dev_linux-64
-----------------------------
+About libnvptxcompiler-dev
+--------------------------
 
 Home: https://developer.nvidia.com/cuda-toolkit
 
 Package license: [LicenseRef-NVIDIA-End-User-License-Agreement](https://docs.nvidia.com/cuda/eula/index.html)
 
-Summary: Target architecture dependent parts of CUDA NVCC compiler.
+Summary: Target architecture dependent parts of CUDA nvptxcompiler.
 
 Documentation: https://docs.nvidia.com/cuda/index.html
 
 Compiler for CUDA applications.
+
+
+About libnvptxcompiler-dev_linux-64
+-----------------------------------
+
+Home: https://developer.nvidia.com/cuda-toolkit
+
+Package license: [LicenseRef-NVIDIA-End-User-License-Agreement](https://docs.nvidia.com/cuda/eula/index.html)
+
+Summary: Target architecture dependent parts of CUDA nvptxcompiler.
+
+Documentation: https://docs.nvidia.com/cuda/index.html
+
+Compiler for CUDA applications.
+
 
 Current build status
 ====================
@@ -195,7 +210,8 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cuda--nvvm--dev__linux--64-green.svg)](https://anaconda.org/conda-forge/cuda-nvvm-dev_linux-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cuda-nvvm-dev_linux-64.svg)](https://anaconda.org/conda-forge/cuda-nvvm-dev_linux-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cuda-nvvm-dev_linux-64.svg)](https://anaconda.org/conda-forge/cuda-nvvm-dev_linux-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cuda-nvvm-dev_linux-64.svg)](https://anaconda.org/conda-forge/cuda-nvvm-dev_linux-64) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cuda--nvvm--impl-green.svg)](https://anaconda.org/conda-forge/cuda-nvvm-impl) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cuda-nvvm-impl.svg)](https://anaconda.org/conda-forge/cuda-nvvm-impl) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cuda-nvvm-impl.svg)](https://anaconda.org/conda-forge/cuda-nvvm-impl) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cuda-nvvm-impl.svg)](https://anaconda.org/conda-forge/cuda-nvvm-impl) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cuda--nvvm--tools-green.svg)](https://anaconda.org/conda-forge/cuda-nvvm-tools) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cuda-nvvm-tools.svg)](https://anaconda.org/conda-forge/cuda-nvvm-tools) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cuda-nvvm-tools.svg)](https://anaconda.org/conda-forge/cuda-nvvm-tools) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cuda-nvvm-tools.svg)](https://anaconda.org/conda-forge/cuda-nvvm-tools) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-libnvptxcompiler--dev_linux--64-green.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev_linux-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libnvptxcompiler-dev_linux-64.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev_linux-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libnvptxcompiler-dev_linux-64.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev_linux-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libnvptxcompiler-dev_linux-64.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev_linux-64) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libnvptxcompiler--dev-green.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libnvptxcompiler-dev.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libnvptxcompiler-dev.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libnvptxcompiler-dev.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libnvptxcompiler--dev__linux--64-green.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev_linux-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libnvptxcompiler-dev_linux-64.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev_linux-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libnvptxcompiler-dev_linux-64.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev_linux-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libnvptxcompiler-dev_linux-64.svg)](https://anaconda.org/conda-forge/libnvptxcompiler-dev_linux-64) |
 
 Installing cuda-nvcc-impl
 =========================
@@ -207,16 +223,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `cuda-crt-dev_linux-64, cuda-crt-tools, cuda-nvcc-dev_linux-64, cuda-nvcc-impl, cuda-nvcc-tools, cuda-nvvm-dev_linux-64, cuda-nvvm-impl, cuda-nvvm-tools, libnvptxcompiler-dev_linux-64` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `cuda-crt-dev_linux-64, cuda-crt-tools, cuda-nvcc-dev_linux-64, cuda-nvcc-impl, cuda-nvcc-tools, cuda-nvvm-dev_linux-64, cuda-nvvm-impl, cuda-nvvm-tools, libnvptxcompiler-dev, libnvptxcompiler-dev_linux-64` can be installed with `conda`:
 
 ```
-conda install cuda-crt-dev_linux-64 cuda-crt-tools cuda-nvcc-dev_linux-64 cuda-nvcc-impl cuda-nvcc-tools cuda-nvvm-dev_linux-64 cuda-nvvm-impl cuda-nvvm-tools libnvptxcompiler-dev_linux-64
+conda install cuda-crt-dev_linux-64 cuda-crt-tools cuda-nvcc-dev_linux-64 cuda-nvcc-impl cuda-nvcc-tools cuda-nvvm-dev_linux-64 cuda-nvvm-impl cuda-nvvm-tools libnvptxcompiler-dev libnvptxcompiler-dev_linux-64
 ```
 
 or with `mamba`:
 
 ```
-mamba install cuda-crt-dev_linux-64 cuda-crt-tools cuda-nvcc-dev_linux-64 cuda-nvcc-impl cuda-nvcc-tools cuda-nvvm-dev_linux-64 cuda-nvvm-impl cuda-nvvm-tools libnvptxcompiler-dev_linux-64
+mamba install cuda-crt-dev_linux-64 cuda-crt-tools cuda-nvcc-dev_linux-64 cuda-nvcc-impl cuda-nvcc-tools cuda-nvvm-dev_linux-64 cuda-nvvm-impl cuda-nvvm-tools libnvptxcompiler-dev libnvptxcompiler-dev_linux-64
 ```
 
 It is possible to list all of the versions of `cuda-crt-dev_linux-64` available on your platform with `conda`:
