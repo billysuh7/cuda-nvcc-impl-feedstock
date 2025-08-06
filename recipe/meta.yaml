@@ -123,7 +123,7 @@ outputs:
       strong:
         - cuda-version >={{ cuda_version }},<{{ cuda_version_next_major }}
     files:
-      - targets/{{ target_name }}/bin/nvcc
+      - targets/{{ target_name }}/bin/nvcc                          # [linux]
       - targets/{{ target_name }}/include/fatbinary_section.h       # [linux]
       - Library\bin\*.exe                     # [win]
       - Library\bin\nvcc.profile              # [win]
@@ -138,7 +138,7 @@ outputs:
         - {{ pin_subpackage("libnvptxcompiler-dev_" + target_platform, exact=True) }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - cuda-version {{ cuda_version }}
-        - libgcc {{ gcc_min_constraint }}  # [linux64]
+        - libgcc {{ gcc_min_constraint }}  # [linux]
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - {{ pin_subpackage("cuda-crt-dev_" + target_platform, exact=True) }}
