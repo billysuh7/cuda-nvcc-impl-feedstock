@@ -145,7 +145,7 @@ outputs:
         - {{ pin_subpackage("cuda-nvvm-dev_" + target_platform, exact=True) }}
         - {{ pin_subpackage("libnvptxcompiler-dev_" + target_platform, exact=True) }}
         - arm-variant * {{ arm_variant_type }}    # [aarch64]
-        - libgcc {{ gcc_min_constraint }}  # [linux64]
+        - libgcc {{ gcc_min_constraint }}  # [linux]
       run_constrained:
         - gcc_impl_{{ target_platform }} {{ gcc_constraint }}  # [linux]
     test:
