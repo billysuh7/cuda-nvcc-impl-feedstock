@@ -81,7 +81,7 @@ outputs:
       build:
         - {{ compiler("c") }}
         - {{ compiler("cxx") }}
-        - {{ stdlib("c") }}  # [linux]
+        - {{ stdlib("c") }}
       host:
         - {{ pin_subpackage("cuda-crt-tools", exact=True) }}
         - {{ pin_subpackage("cuda-nvvm-tools", exact=True) }}
@@ -130,7 +130,7 @@ outputs:
       - Library\include\fatbinary_section.h   # [win]
     requirements:
       build:
-        - {{ stdlib("c") }}  # [linux]
+        - {{ stdlib("c") }}
       host:
         - {{ pin_subpackage("cuda-crt-dev_" + target_platform, exact=True) }}
         - {{ pin_subpackage("cuda-nvcc-tools", exact=True) }}
@@ -249,7 +249,7 @@ outputs:
       requires:
         - {{ compiler("c") }}
         - {{ compiler("cxx") }}
-        - {{ stdlib("c") }}  # [linux]
+        - {{ stdlib("c") }}
         - gxx              # [linux]
         - gcc              # [linux]
         - vs{{ VSYEAR }}_win-64 =={{ CL_VERSION }}  # [win]
@@ -344,7 +344,7 @@ outputs:
     requirements:
       build:
         - {{ compiler("c") }}
-        - {{ stdlib("c") }}  # [linux]
+        - {{ stdlib("c") }}
       host:
         - cuda-version {{ cuda_version }}
       run:
@@ -407,7 +407,7 @@ outputs:
     requirements:
       build:
         - {{ compiler("c") }}
-        - {{ stdlib("c") }}  # [linux]
+        - {{ stdlib("c") }}
       host:
         - cuda-version {{ cuda_version }}
       run:
