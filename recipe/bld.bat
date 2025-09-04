@@ -1,6 +1,5 @@
 if not exist %PREFIX% mkdir %PREFIX%
 if not exist %LIBRARY_LIB%\x64 mkdir %LIBRARY_LIB%\x64
-if not exist %LIBRARY_BIN%\x64 mkdir %LIBRARY_BIN%\x64
 
 REM our feedstock has four sources: nvcc, crt, nvvm, libnvptxcompiler
 
